@@ -1,47 +1,47 @@
 package com.example.application.views.customerform;
 
-import com.example.application.data.entity.SamplePerson;
-import com.example.application.data.service.SamplePersonService;
+import com.example.application.data.entity.Customer;
+import com.example.application.data.entity.Gender;
+import com.example.application.data.service.CustomerService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.customfield.CustomField;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+
 import javax.annotation.security.RolesAllowed;
 
 @PageTitle("Customer Form")
 @Route(value = "Customer-form", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
-public class CustomerFormView extends Div {
+public class CustomerFormView extends VerticalLayout {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
+    private Select<Gender> gender = new Select<>();
     private EmailField email = new EmailField("Email address");
-    private DatePicker dateOfBirth = new DatePicker("Birthday");
-    private PhoneNumberField phone = new PhoneNumberField("Phone number");
+    private TextField phone = new TextField("Phone number");
     private TextField occupation = new TextField("Occupation");
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<SamplePerson> binder = new Binder<>(SamplePerson.class);
+    private Binder<Customer> binder = new Binder<>(Customer.class);
 
-    public CustomerFormView(SamplePersonService personService) {
+    public CustomerFormView(CustomerService personService) {
         addClassName("customer-form-view");
 
         add(createTitle());
@@ -60,7 +60,7 @@ public class CustomerFormView extends Div {
     }
 
     private void clearForm() {
-        binder.setBean(new SamplePerson());
+        binder.setBean(new Customer());
     }
 
     private Component createTitle() {
@@ -70,7 +70,9 @@ public class CustomerFormView extends Div {
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        gender.setItems(Gender.values());
+        gender.setLabel("Gender");
+        formLayout.add(firstName, lastName, gender, phone, email, occupation);
         return formLayout;
     }
 
@@ -83,7 +85,7 @@ public class CustomerFormView extends Div {
         return buttonLayout;
     }
 
-    private static class PhoneNumberField extends CustomField<String> {
+   /* private static class PhoneNumberField extends CustomField<String> {
         private ComboBox<String> countryCode = new ComboBox<>();
         private TextField number = new TextField();
 
@@ -123,6 +125,6 @@ public class CustomerFormView extends Div {
                 number.clear();
             }
         }
-    }
+    }*/
 
 }

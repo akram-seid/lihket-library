@@ -1,9 +1,18 @@
 package com.example.application.data.entity;
 
-import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Entity;
+import java.time.LocalDate;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Book extends AbstractEntity {
 
     private String bookTitle;
@@ -11,43 +20,8 @@ public class Book extends AbstractEntity {
     private String isbn;
     private LocalDate publicationDate;
     private String catalogId;
-    private String gener;
+    private String genera;
+    private int quantity;
 
-    public String getBookTitle() {
-        return bookTitle;
-    }
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
-    }
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public String getIsbn() {
-        return isbn;
-    }
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
-    public LocalDate getPublicationDate() {
-        return publicationDate;
-    }
-    public void setPublicationDate(LocalDate publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-    public String getCatalogId() {
-        return catalogId;
-    }
-    public void setCatalogId(String catalogId) {
-        this.catalogId = catalogId;
-    }
-    public String getGener() {
-        return gener;
-    }
-    public void setGener(String gener) {
-        this.gener = gener;
-    }
 
 }

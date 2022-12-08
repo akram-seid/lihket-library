@@ -1,12 +1,13 @@
 package com.example.application.data.service;
 
 import com.example.application.data.entity.Book;
-import java.util.Optional;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -18,7 +19,7 @@ public class BookService {
         this.repository = repository;
     }
 
-    public Optional<Book> get(UUID id) {
+    public Optional<Book> get(Long id) {
         return repository.findById(id);
     }
 
@@ -26,7 +27,7 @@ public class BookService {
         return repository.save(entity);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 
@@ -38,4 +39,7 @@ public class BookService {
         return (int) repository.count();
     }
 
+    public List<Book> findAll() {
+        return repository.findAll();
+    }
 }

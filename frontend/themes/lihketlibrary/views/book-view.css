@@ -16,7 +16,7 @@
 .book-view .editor-layout {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 30%;
 }
 
 .book-view .editor {

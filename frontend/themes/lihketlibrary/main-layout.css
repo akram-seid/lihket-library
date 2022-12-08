@@ -55,3 +55,10 @@ vaadin-scroller[slot="drawer"][overflow~="bottom"] {
 [slot="drawer"]:is(header, footer):is(:empty) {
   display: none;
 }
+
+.logo-image {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
+  Height: 100px;
+}

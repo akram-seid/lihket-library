@@ -1,41 +1,46 @@
 package com.example.application.data.service;
 
-import com.example.application.data.entity.SamplePerson;
-import java.util.Optional;
-import java.util.UUID;
+import com.example.application.data.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-@Service
-public class SamplePersonService {
+import java.util.List;
+import java.util.Optional;
 
-    private final SamplePersonRepository repository;
+@Service
+public class CustomerService {
+
+    private final CustomerRepository repository;
 
     @Autowired
-    public SamplePersonService(SamplePersonRepository repository) {
+    public CustomerService(CustomerRepository repository) {
         this.repository = repository;
     }
 
-    public Optional<SamplePerson> get(UUID id) {
+    public Optional<Customer> get(Long id) {
         return repository.findById(id);
     }
 
-    public SamplePerson update(SamplePerson entity) {
+    public Customer update(Customer entity) {
         return repository.save(entity);
     }
 
-    public void delete(UUID id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 
-    public Page<SamplePerson> list(Pageable pageable) {
+    public Page<Customer> list(Pageable pageable) {
         return repository.findAll(pageable);
     }
 
     public int count() {
         return (int) repository.count();
+    }
+
+    public List<Customer> findAll() {
+        return repository.findAll();
     }
 
 }

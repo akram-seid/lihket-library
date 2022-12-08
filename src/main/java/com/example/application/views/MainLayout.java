@@ -6,25 +6,21 @@ import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.book.BookView;
 import com.example.application.views.borrow.BorrowView;
+import com.example.application.views.customerList.CustomerListView;
 import com.example.application.views.customerform.CustomerFormView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.MenuItem;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.Header;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.menubar.MenuBar;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.server.StreamResource;
 import com.vaadin.flow.server.auth.AccessAnnotationChecker;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import java.io.ByteArrayInputStream;
+
 import java.util.Optional;
 
 /**
@@ -58,8 +54,12 @@ public class MainLayout extends AppLayout {
 
     private void addDrawerContent() {
         H1 appName = new H1("Lihket Library");
+        Image image = new Image("/images/lihket.jpg", "Lihket Library");
+        image.addClassNames("logo-image");
+        HorizontalLayout layout = new HorizontalLayout();
+        layout.add(image, appName);
         appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
-        Header header = new Header(appName);
+        Header header = new Header(layout);
 
         Scroller scroller = new Scroller(createNavigation());
 
@@ -72,17 +72,22 @@ public class MainLayout extends AppLayout {
         AppNav nav = new AppNav();
 
         if (accessChecker.hasAccess(BookView.class)) {
-            nav.addItem(new AppNavItem("Book", BookView.class, "la la-columns"));
+            nav.addItem(new AppNavItem("Books", BookView.class, "la la-columns"));
 
         }
         if (accessChecker.hasAccess(CustomerFormView.class)) {
             nav.addItem(new AppNavItem("Customer Form", CustomerFormView.class, "la la-user"));
 
         }
-        if (accessChecker.hasAccess(BorrowView.class)) {
-            nav.addItem(new AppNavItem("Borrow", BorrowView.class, "la la-user"));
+        if (accessChecker.hasAccess(CustomerListView.class)) {
+            nav.addItem(new AppNavItem("Customer List", CustomerListView.class, "la la-user"));
 
         }
+        if (accessChecker.hasAccess(BorrowView.class)) {
+            nav.addItem(new AppNavItem("Borrow List", BorrowView.class, "la la-book"));
+
+        }
+
 
         return nav;
     }
@@ -95,9 +100,6 @@ public class MainLayout extends AppLayout {
             User user = maybeUser.get();
 
             Avatar avatar = new Avatar(user.getName());
-            StreamResource resource = new StreamResource("profile-pic",
-                    () -> new ByteArrayInputStream(user.getProfilePicture()));
-            avatar.setImageResource(resource);
             avatar.setThemeName("xsmall");
             avatar.getElement().setAttribute("tabindex", "-1");
 
