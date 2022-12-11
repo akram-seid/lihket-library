@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -14,13 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class Book extends AbstractEntity {
-
-    private String bookTitle;
-    private String author;
-    private String isbn;
-    private LocalDate publicationDate;
-    private String catalogId;
+    private String code;
     private String genera;
+    private String author;
+    private String title;
+    private String year;
     private int quantity;
 
 

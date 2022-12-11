@@ -15,8 +15,7 @@ import javax.validation.constraints.Email;
 @ToString
 public class Customer extends AbstractEntity {
 
-    private String firstName;
-    private String lastName;
+    private String fullName;
     @Email
     private String email;
     private String phone;

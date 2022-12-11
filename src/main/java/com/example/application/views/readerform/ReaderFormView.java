@@ -1,4 +1,4 @@
-package com.example.application.views.customerform;
+package com.example.application.views.readerform;
 
 import com.example.application.data.entity.Customer;
 import com.example.application.data.entity.Gender;
@@ -23,14 +23,13 @@ import com.vaadin.flow.router.Route;
 
 import javax.annotation.security.RolesAllowed;
 
-@PageTitle("Customer Form")
-@Route(value = "Customer-form", layout = MainLayout.class)
+@PageTitle("Reader Form")
+@Route(value = "reader-form", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
-public class CustomerFormView extends VerticalLayout {
+public class ReaderFormView extends VerticalLayout {
 
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
+    private TextField fullName = new TextField("Full Name");
     private Select<Gender> gender = new Select<>();
     private EmailField email = new EmailField("Email address");
     private TextField phone = new TextField("Phone number");
@@ -41,7 +40,7 @@ public class CustomerFormView extends VerticalLayout {
 
     private Binder<Customer> binder = new Binder<>(Customer.class);
 
-    public CustomerFormView(CustomerService personService) {
+    public ReaderFormView(CustomerService personService) {
         addClassName("customer-form-view");
 
         add(createTitle());
@@ -72,7 +71,7 @@ public class CustomerFormView extends VerticalLayout {
         email.setErrorMessage("Please enter a valid email address");
         gender.setItems(Gender.values());
         gender.setLabel("Gender");
-        formLayout.add(firstName, lastName, gender, phone, email, occupation);
+        formLayout.add(fullName, gender, phone, email, occupation);
         return formLayout;
     }
 

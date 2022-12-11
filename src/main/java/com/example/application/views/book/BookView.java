@@ -50,11 +50,10 @@ public class BookView extends Div implements BeforeEnterObserver {
 
     private final Grid<Book> grid = new Grid<>(Book.class, false);
 
-    private TextField bookTitle;
+    private TextField title;
     private TextField author;
-    private TextField isbn;
-    private DatePicker publicationDate;
-    private TextField catalogId;
+    private TextField year;
+    private TextField code;
     TextField searchField = new TextField();
     BorrowService borrowService;
     private TextField genera;
@@ -84,13 +83,16 @@ public class BookView extends Div implements BeforeEnterObserver {
         add(searchField);
         add(splitLayout);
 
-
-        grid.addColumn(Book::getBookTitle).setHeader("bookTitle").setAutoWidth(true);
-        grid.addColumn(Book::getAuthor).setHeader("author").setAutoWidth(true);
-        grid.addColumn(Book::getCatalogId).setHeader("catalogId").setAutoWidth(true);
-        grid.addComponentColumn(this::createLend).setHeader("Option");
+        grid.addColumn(Book::getId).setHeader("#").setWidth("4em").setFlexGrow(0);
+        grid.addColumn(Book::getTitle).setHeader("Book Title").setAutoWidth(true);
+        grid.addColumn(Book::getAuthor).setHeader("Author").setAutoWidth(true);
+        grid.addColumn(Book::getGenera).setHeader("Genera").setAutoWidth(true).setSortable(true);
+        grid.addColumn(Book::getCode).setHeader("Code").setAutoWidth(true);
+        grid.addColumn(Book::getQuantity).setHeader("Quantity").setWidth("2em").setFlexGrow(0);
+        grid.addComponentColumn(this::createLend).setAutoWidth(true);
         grid.setItems(bookService.findAll());
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
+        grid.addThemeVariants(GridVariant.LUMO_COLUMN_BORDERS);
+        grid.addThemeVariants(GridVariant.LUMO_WRAP_CELL_CONTENT);
 
         GridListDataView<Book> dataView = grid.setItems(bookService.findAll());
         searchField.setWidth("50%");
@@ -104,9 +106,9 @@ public class BookView extends Div implements BeforeEnterObserver {
             if (searchTerm.isEmpty())
                 return true;
 
-            boolean matchesFullName = matchesTerm(person.getBookTitle(),
+            boolean matchesFullName = matchesTerm(person.getTitle(),
                     searchTerm);
-            boolean matchesEmail = matchesTerm(person.getIsbn(), searchTerm);
+            boolean matchesEmail = matchesTerm(person.getCode(), searchTerm);
             boolean matchesProfession = matchesTerm(person.getAuthor(),
                     searchTerm);
 
@@ -179,7 +181,7 @@ public class BookView extends Div implements BeforeEnterObserver {
 
     private void save(Borrow borrow) {
         borrowService.update(borrow);
-        Notification.show("You successfully Lent " + borrow.getBook().getBookTitle() +
+        Notification.show("You successfully Lent " + borrow.getBook().getTitle() +
                 " to customer with ID: " + borrow.getCustomer().getId()).setPosition(Notification.Position.MIDDLE);
     }
 
@@ -211,14 +213,13 @@ public class BookView extends Div implements BeforeEnterObserver {
         editorLayoutDiv.add(editorDiv);
 
         FormLayout formLayout = new FormLayout();
-        bookTitle = new TextField("Book Title");
+        title = new TextField("Book Title");
         author = new TextField("Author");
-        isbn = new TextField("Isbn");
-        publicationDate = new DatePicker("Publication Date");
-        catalogId = new TextField("Catalog Id");
+        year = new TextField("Publication Date");
+        code = new TextField("Code");
         genera = new TextField("Genera");
         quantity = new TextField("Quantity");
-        formLayout.add(bookTitle, author, isbn, publicationDate, catalogId, genera, quantity);
+        formLayout.add(title, author, year, code, genera, quantity);
 
         editorDiv.add(formLayout);
         createButtonLayout(editorLayoutDiv);
@@ -261,7 +262,7 @@ class LendForm extends Composite<Component> {
     private final SerializableRunnable saveListener;
     private Book book;
     private Borrow borrow;
-    private TextField customerId = new TextField("Customer ID");
+    private TextField customerId = new TextField("Reader ID");
     private DatePicker borrowDate = new DatePicker("Borrow Date");
     private DatePicker returnDate = new DatePicker("Return Date");
 
@@ -280,7 +281,7 @@ class LendForm extends Composite<Component> {
     protected Component initContent() {
         return new VerticalLayout(
                 new H4("Lend Book ..."),
-                new H6("Book: " + book.getBookTitle()),
+                new H6("Book: " + book.getTitle()),
                 customerId,
                 borrowDate,
                 returnDate,

@@ -5,9 +5,10 @@ import com.example.application.components.appnav.AppNavItem;
 import com.example.application.data.entity.User;
 import com.example.application.security.AuthenticatedUser;
 import com.example.application.views.book.BookView;
+import com.example.application.views.borrow.BorrowHistoryView;
 import com.example.application.views.borrow.BorrowView;
-import com.example.application.views.customerList.CustomerListView;
-import com.example.application.views.customerform.CustomerFormView;
+import com.example.application.views.readerList.ReaderListView;
+import com.example.application.views.readerform.ReaderFormView;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
@@ -75,16 +76,20 @@ public class MainLayout extends AppLayout {
             nav.addItem(new AppNavItem("Books", BookView.class, "la la-columns"));
 
         }
-        if (accessChecker.hasAccess(CustomerFormView.class)) {
-            nav.addItem(new AppNavItem("Customer Form", CustomerFormView.class, "la la-user"));
+        if (accessChecker.hasAccess(ReaderFormView.class)) {
+            nav.addItem(new AppNavItem("Reader Form", ReaderFormView.class, "la la-user"));
 
         }
-        if (accessChecker.hasAccess(CustomerListView.class)) {
-            nav.addItem(new AppNavItem("Customer List", CustomerListView.class, "la la-user"));
+        if (accessChecker.hasAccess(ReaderListView.class)) {
+            nav.addItem(new AppNavItem("Reader List", ReaderListView.class, "la la-user"));
 
         }
         if (accessChecker.hasAccess(BorrowView.class)) {
             nav.addItem(new AppNavItem("Borrow List", BorrowView.class, "la la-book"));
+
+        }
+        if (accessChecker.hasAccess(BorrowHistoryView.class)) {
+            nav.addItem(new AppNavItem("Borrow History", BorrowHistoryView.class, "la la-book"));
 
         }
 
